@@ -1,0 +1,381 @@
+@import "tailwindcss";
+
+:root {
+  --background: #faf8f8;
+  --foreground: #17242b;
+  --app-bg: #faf8f8;
+  --brand-blue: #66c0f0;
+  --brand-dark: #2691ba;
+  --brand-deep: #0c556c;
+  --brand-soft: #eaf7fc;
+  --sage: #eaf3ed;
+  --warm: #fff6e4;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  letter-spacing: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.tool-panel {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(12, 85, 108, 0.07);
+  backdrop-filter: blur(16px);
+}
+
+.section-title {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  color: #17242b;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.modal-panel {
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 24px;
+  box-shadow: 0 28px 80px rgba(12, 85, 108, 0.22);
+}
+
+.invoice-preview-shell {
+  container-type: inline-size;
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+
+.invoice-preview-stage {
+  position: relative;
+  width: min(100%, 1085px);
+  aspect-ratio: 1085 / 1450;
+  --invoice-scale: min(1, calc(100cqw / 1085px));
+}
+
+.invoice-page {
+  --invoice-text-scale: 1;
+  --invoice-copy-font: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --invoice-display-font: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --invoice-accent-font: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1085px;
+  height: 1450px;
+  overflow: hidden;
+  background: #ffffff url("/brand/invoice-background-contact.png") center /
+    100% 100% no-repeat;
+  color: #233642;
+  font-family: var(--invoice-copy-font);
+  box-shadow: 0 18px 55px rgba(12, 85, 108, 0.12);
+  transform: scale(var(--invoice-scale));
+  transform-origin: top left;
+}
+
+.invoice-font-modern {
+  --invoice-copy-font: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --invoice-display-font: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --invoice-accent-font: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.invoice-font-elegant {
+  --invoice-copy-font: Georgia, var(--font-cormorant), serif;
+  --invoice-display-font: Georgia, var(--font-cormorant), serif;
+  --invoice-accent-font: Georgia, var(--font-cormorant), serif;
+}
+
+.invoice-font-handwritten {
+  --invoice-copy-font: Georgia, var(--font-cormorant), serif;
+  --invoice-display-font: "Snell Roundhand", "Apple Chancery",
+    var(--font-dancing-script), cursive;
+  --invoice-accent-font: "Snell Roundhand", "Apple Chancery",
+    var(--font-dancing-script), cursive;
+}
+
+.invoice-page h2,
+.invoice-page h3,
+.invoice-page p,
+.invoice-page dl {
+  margin: 0;
+}
+
+.invoice-page h3 {
+  color: var(--brand-dark);
+  font-family: var(--invoice-accent-font);
+  font-size: calc(16px * var(--invoice-text-scale));
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.invoice-font-handwritten h3 {
+  font-size: calc(23px * var(--invoice-text-scale));
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.invoice-page p {
+  white-space: pre-line;
+  color: #344955;
+  font-size: calc(19px * var(--invoice-text-scale));
+  line-height: 1.55;
+}
+
+.invoice-page strong {
+  color: #182832;
+  font-weight: 800;
+}
+
+.invoice-title-block {
+  position: absolute;
+  top: 160px;
+  right: 88px;
+  width: 360px;
+  text-align: right;
+}
+
+.invoice-title-block h2 {
+  color: var(--brand-dark);
+  font-family: var(--invoice-display-font);
+  font-size: calc(64px * var(--invoice-text-scale));
+  font-weight: 800;
+  line-height: 1;
+}
+
+.invoice-font-handwritten .invoice-title-block h2 {
+  font-size: calc(84px * var(--invoice-text-scale));
+  font-weight: 700;
+}
+
+.invoice-title-block dl {
+  display: grid;
+  gap: 10px;
+  margin-top: 26px;
+  font-size: calc(17px * var(--invoice-text-scale));
+}
+
+.invoice-title-block div {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 14px;
+}
+
+.invoice-title-block dt {
+  color: #5d7480;
+  font-weight: 700;
+}
+
+.invoice-title-block dd {
+  margin: 0;
+  color: #182832;
+  font-weight: 800;
+}
+
+.invoice-from-block,
+.invoice-client-block,
+.invoice-payment-block,
+.invoice-items-block,
+.invoice-totals-block,
+.invoice-notes-block {
+  position: absolute;
+}
+
+.invoice-from-block {
+  top: 320px;
+  left: 88px;
+  width: 380px;
+}
+
+.invoice-client-block {
+  top: 258px;
+  left: 108px;
+  width: 410px;
+}
+
+.invoice-payment-block {
+  top: 828px;
+  left: 88px;
+  width: 368px;
+  min-height: 138px;
+  border-bottom: 4px solid var(--brand-dark);
+  border-radius: 0;
+  background: rgba(234, 247, 252, 0.9);
+  padding: 18px 20px 24px;
+}
+
+.invoice-from-block p,
+.invoice-client-block p,
+.invoice-payment-block p {
+  margin-top: 14px;
+}
+
+.invoice-items-block {
+  top: 510px;
+  left: 88px;
+  right: 88px;
+}
+
+.invoice-items-block table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  font-size: calc(17px * var(--invoice-text-scale));
+}
+
+.invoice-items-block thead {
+  background: var(--brand-dark);
+  color: #ffffff;
+}
+
+.invoice-items-block th,
+.invoice-items-block td {
+  padding: 15px 18px;
+}
+
+.invoice-items-block th {
+  font-weight: 800;
+  text-align: left;
+}
+
+.invoice-items-block th:nth-child(n + 2),
+.invoice-items-block td:nth-child(n + 2) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.invoice-items-block td {
+  border-bottom: 1px solid rgba(38, 145, 186, 0.16);
+  color: #243946;
+  vertical-align: top;
+}
+
+.invoice-items-block td:first-child {
+  width: 52%;
+}
+
+.invoice-items-block td:last-child {
+  color: #182832;
+  font-weight: 800;
+}
+
+.invoice-totals-block {
+  top: 848px;
+  right: 88px;
+  display: grid;
+  width: 390px;
+  gap: 13px;
+  font-size: calc(18px * var(--invoice-text-scale));
+}
+
+.invoice-totals-block > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #4c626f;
+}
+
+.invoice-totals-block > div span:last-child {
+  color: #182832;
+  font-weight: 800;
+}
+
+.invoice-grand-total {
+  margin-top: 8px;
+  border-top: 2px solid rgba(38, 145, 186, 0.25);
+  padding-top: 20px;
+  color: var(--brand-dark) !important;
+  font-family: var(--invoice-display-font);
+  font-size: calc(30px * var(--invoice-text-scale));
+  font-weight: 900;
+}
+
+.invoice-grand-total span:last-child {
+  color: var(--brand-dark) !important;
+}
+
+.invoice-notes-block {
+  top: 752px;
+  left: 108px;
+  width: 520px;
+}
+
+.invoice-notes-block p {
+  margin-top: 14px;
+  font-size: calc(18px * var(--invoice-text-scale));
+}
+
+@page {
+  size: 1085px 1450px;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: 1085px;
+    min-height: 1450px;
+    background: #ffffff !important;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    min-height: auto !important;
+    background: #ffffff !important;
+  }
+
+  .invoice-preview-shell {
+    width: 1085px !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    container-type: normal !important;
+  }
+
+  .invoice-preview-stage {
+    width: 1085px !important;
+    height: 1450px !important;
+    aspect-ratio: auto !important;
+  }
+
+  .invoice-page {
+    width: 1085px !important;
+    height: 1450px !important;
+    max-width: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+}
