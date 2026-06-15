@@ -8,6 +8,7 @@ import {
   Copy,
   Download,
   FilePlus2,
+  MessageCircle,
   PackagePlus,
   Plus,
   Save,
@@ -578,6 +579,50 @@ export function InvoiceBuilder() {
     window.print();
   };
 
+  const shareOnWhatsApp = () => {
+    const clientName = invoice.billTo.name || "your client";
+    const clientPhone = invoice.billTo.phone?.replace(/\s+/g, "") || "";
+
+    const itemLines = invoice.items
+      .map(
+        (item) =>
+          `• ${item.description} (×${item.quantity}) — ${formatMoney(item.quantity * item.rate, invoice.currency)}`,
+      )
+      .join("\n");
+
+    const message = [
+      `Hello ${clientName},`,
+      "",
+      `Please find below the summary for Invoice *${invoice.invoiceNumber}*:`,
+      "",
+      itemLines,
+      "",
+      totals.discount > 0
+        ? `Discount: -${formatMoney(totals.discount, invoice.currency)}\n`
+        : "",
+      invoice.taxRate > 0
+        ? `Tax (${invoice.taxRate}%): ${formatMoney(totals.tax, invoice.currency)}\n`
+        : "",
+      `*Total: ${formatMoney(totals.total, invoice.currency)}*`,
+      "",
+      invoice.paymentTerms ? `📅 ${invoice.paymentTerms}` : "",
+      invoice.bankDetails ? `🏦 ${invoice.bankDetails}` : "",
+      "",
+      invoice.notes ? `_${invoice.notes}_` : "",
+    ]
+      .filter((line) => line !== null && line !== undefined)
+      .join("\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+
+    const encoded = encodeURIComponent(message);
+    const url = clientPhone
+      ? `https://wa.me/${clientPhone.replace(/^\+/, "")}?text=${encoded}`
+      : `https://wa.me/?text=${encoded}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   const statusStyles: Record<SyncState, string> = {
     checking: "bg-slate-100 text-slate-700",
     local: "bg-amber-100 text-amber-900",
@@ -643,6 +688,14 @@ export function InvoiceBuilder() {
             <ActionButton variant="primary" onClick={printInvoice}>
               <Download size={17} aria-hidden />
               Print / PDF
+            </ActionButton>
+            <ActionButton
+              variant="primary"
+              onClick={shareOnWhatsApp}
+              className="border-[#25D366] bg-[#25D366] hover:bg-[#1ebe5d]"
+            >
+              <MessageCircle size={17} aria-hidden />
+              WhatsApp
             </ActionButton>
           </div>
         </div>
